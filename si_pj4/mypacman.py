@@ -504,7 +504,7 @@ def start():
         game_over_check = pygame.sprite.spritecollide(Pacman, ghost_list, False)
 
         if game_over_check:
-            LEVEL = 5
+            LEVEL = 10
             FINAL_SCORE = 0
             restart("Game Over", 235, all_sprites_list, block_list, ghost_list, collision, wall_list, gate)
         pygame.display.flip()

@@ -15,7 +15,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/si_pj4$pacman_pyw.coverage" NAME="pacman.pyw Coverage Results" MODIFIED="1480765477282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/pacman-python-master/pacman" />
     <SUITE FILE_PATH="coverage/si_pj4$pygame.coverage" NAME="pygame Coverage Results" MODIFIED="1480765108038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/si_pj4$mypacman.coverage" NAME="mypacman Coverage Results" MODIFIED="1480898338296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/si_pj4$mypacman.coverage" NAME="mypacman Coverage Results" MODIFIED="1480898800793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -29,8 +29,8 @@
       <file leaf-file-name="mypacman.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mypacman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="489" column="68" lean-forward="false" selection-start-line="489" selection-start-column="68" selection-end-line="489" selection-end-column="68" />
+            <state relative-caret-position="285">
+              <caret line="476" column="31" lean-forward="true" selection-start-line="476" selection-start-column="31" selection-end-line="476" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -553,8 +553,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mypacman.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="489" column="68" lean-forward="false" selection-start-line="489" selection-start-column="68" selection-end-line="489" selection-end-column="68" />
+        <state relative-caret-position="285">
+          <caret line="476" column="31" lean-forward="true" selection-start-line="476" selection-start-column="31" selection-end-line="476" selection-end-column="31" />
           <folding />
         </state>
       </provider>
