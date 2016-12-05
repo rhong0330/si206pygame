@@ -5,8 +5,10 @@
 
 import pygame
 
-#size factor
+#GLOBAL VARIABLES
+LEVEL = 10 # clock speed
 SIZE_FACTOR = 6 #bug when changed to different factor for now
+FINAL_SCORE = 0
 
 #colors
 color_black = (0, 0, 0)
@@ -32,8 +34,8 @@ pygame.display.set_icon(player)
 #music
 pygame.mixer.init()
 pygame.mixer.music.load("pacman.mp3")
-pygame.mixer.music.play(-1, 0.0)
-
+pygame.mixer.music.play(-1, 5.0)
+pygame.mixer.music.set_volume(0.4)
 
 #map unit
 class Wall(pygame.sprite.Sprite):
@@ -349,6 +351,7 @@ font = pygame.font.Font("freesansbold.ttf", 24)
 
 def start():
     #setup
+    global LEVEL, FINAL_SCORE
     all_sprites_list = pygame.sprite.RenderPlain()
     block_list = pygame.sprite.RenderPlain()
     ghost_list = pygame.sprite.RenderPlain()
@@ -471,6 +474,10 @@ def start():
         #find score
         if len(blocks_hit_list) > 0:
             score += len(blocks_hit_list)
+            if score % 2 is 0 :
+                pygame.mixer.Sound("pellet1.wav").play()
+            else:
+                pygame.mixer.Sound("pellet2.wav").play()
 
         screen.fill(color_black)
 
@@ -479,25 +486,35 @@ def start():
         all_sprites_list.draw(screen)
         ghost_list.draw(screen)
 
-        text = font.render("SCORE  " + str(score * 100), True, color_red)
+        text_score = font.render("SCORE  " + str(score * 100 + FINAL_SCORE), True, color_red)
+        text_level = font.render("LEVEL  " + str(int((LEVEL-5) / 5)), True, color_red)
+
         #left block + " blocks:" + str(block_len - score)
         #slowly bring forward the end text
-        screen.blit(text, [10, 610])
+        screen.blit(text_level, [10, 610])
+        screen.blit(text_score, [200, 610])
 
         if score == block_len:
-            restart("CLEAR!", 255, all_sprites_list, block_list, ghost_list, collision,
+            LEVEL += 5
+            FINAL_SCORE += score * 100
+            restart("LEVEL UP!", 235, all_sprites_list, block_list, ghost_list, collision,
                     wall_list, gate)
+
 
         game_over_check = pygame.sprite.spritecollide(Pacman, ghost_list, False)
 
         if game_over_check:
+            LEVEL = 5
+            FINAL_SCORE = 0
             restart("Game Over", 235, all_sprites_list, block_list, ghost_list, collision, wall_list, gate)
         pygame.display.flip()
 
-        clock.tick(10)
+
+        clock.tick(LEVEL)
 
 
 def restart(message, left, all_sprites_list, block_list, ghost_list, collision, wall_list, gate):
+    global LEVEL
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -522,14 +539,18 @@ def restart(message, left, all_sprites_list, block_list, ghost_list, collision, 
 
         text1 = font.render(message, True, color_white)
         screen.blit(text1, [left, 233])
-        text2 = font.render("press ENTER to restart", True, color_white)
+        text2 = font.render("press ENTER to start", True, color_white)
         screen.blit(text2, [180, 303])
         text3 = font.render("press ESC to quit", True, color_white)
         screen.blit(text3, [200, 333])
         pygame.display.flip()
-        clock.tick(10) #clock speed
+        clock.tick(LEVEL)
 
 start()
 
 pygame.quit()
+
+
+
+
 
