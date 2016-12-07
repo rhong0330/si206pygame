@@ -2,7 +2,6 @@
 #final project
 #hongjisu
 
-
 import pygame
 
 #GLOBAL VARIABLES
@@ -92,7 +91,7 @@ def createMap(sprites_list):
 
     # Create Map
     for item in walls:
-        wall = Wall(item[0]*SIZE_FACTOR, item[1]*SIZE_FACTOR, item[2]*SIZE_FACTOR, item[3]*SIZE_FACTOR, color_blue)
+        wall = Wall(item[0]*SIZE_FACTOR, item[1]*SIZE_FACTOR, item[2]*SIZE_FACTOR, item[3]*SIZE_FACTOR, color_green)
         sprites_list.add(wall)
         wall_list.add(wall)
     return wall_list
@@ -139,19 +138,13 @@ class Player(pygame.sprite.Sprite):
     def changePic(self, filename):
         self.image = pygame.image.load(filename).convert()
 
-    #player speed change X
-    def prev_xy(self):
-        self.prev_x = self.change_x
-        self.prev_y = self.change_y
-
     #player speed change O
-    def changespeed(self, x, y):
-        self.change_x += x
-        self.change_y += y
+    def setspeed(self, x, y):
+        self.change_x = x
+        self.change_y = y
 
     #block player avoding map
     def update(self, walls, gate):
-
 
         old_x = self.rect.left
         new_x = old_x + self.change_x
@@ -159,17 +152,16 @@ class Player(pygame.sprite.Sprite):
 
         old_y = self.rect.top
         new_y = old_y + self.change_y
+        self.rect.top = new_y
 
-
-        #CHECK wall hit
-        x_collide = pygame.sprite.spritecollide(self, walls, False)
-        if x_collide:
+        # CHECK wall hit
+        collide = pygame.sprite.spritecollide(self, walls, False)
+        if collide:
             self.rect.left = old_x
+            self.rect.top = old_y
         else:
             self.rect.top = new_y
-            y_collide = pygame.sprite.spritecollide(self, walls, False)
-            if y_collide:
-                self.rect.top = old_y
+            self.rect.top = new_y
 
         if gate != False:
             gate_hit = pygame.sprite.spritecollide(self, gate, False)
@@ -177,10 +169,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect.left = old_x
                 self.rect.top = old_y
 
-
 class Ghost(Player):
     # Change the speed of the ghost
-    def changespeed(self, list, turn, steps, l):
+    def setspeed(self, list, turn, steps, l):
         try:
             z = list[turn][2]
             if steps < z:
@@ -388,11 +379,11 @@ def start():
             if (row>6 and row <9) and (column>7 and column <11):
                 continue
             else:
-                block = Block(color_yellow, 4, 4) #block size (change this part for different size map)
+                block = Block(color_yellow, 10, 10) #block size (change this part for different size map)
 
                 #fill blocks in the map
-                block.rect.x = (30 * column + 6) + 26
-                block.rect.y = (30 * row + 6) + 26
+                block.rect.x = (5*SIZE_FACTOR * column) + 32
+                block.rect.y = (5*SIZE_FACTOR * row) + 32
 
                 p_collide = pygame.sprite.spritecollide(block, collision, False) # collision with pacman
                 b_collide = pygame.sprite.spritecollide(block, wall_list, False) # collision with wall
@@ -412,60 +403,54 @@ def start():
 
     while check == False:
         for event in pygame.event.get():
+            speed = 5 * SIZE_FACTOR
             if event.type == pygame.QUIT:
                 check = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    Pacman.changespeed(-30, 0)
+                    Pacman.setspeed(0, 0)
+                    Pacman.setspeed(-speed, 0)
                     Pacman.changePic("pacman_l.gif")
 
                 if event.key == pygame.K_RIGHT:
-                    Pacman.changespeed(30, 0)
+                    Pacman.setspeed(0, 0)
+                    Pacman.setspeed(speed, 0)
                     Pacman.changePic("pacman_r.gif")
 
                 if event.key == pygame.K_UP:
-                    Pacman.changespeed(0, -30)
+                    Pacman.setspeed(0, 0)
+                    Pacman.setspeed(0, -speed)
                     Pacman.changePic("pacman_u.gif")
 
                 if event.key == pygame.K_DOWN:
-                    Pacman.changespeed(0, 30)
+                    Pacman.setspeed(0, 0)
+                    Pacman.setspeed(0, speed)
                     Pacman.changePic("pacman_d.gif")
-
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    Pacman.changespeed(30, 0)
-                if event.key == pygame.K_RIGHT:
-                    Pacman.changespeed(-30, 0)
-                if event.key == pygame.K_UP:
-                    Pacman.changespeed(0, 30)
-                if event.key == pygame.K_DOWN:
-                    Pacman.changespeed(0, -30)
 
         Pacman.update(wall_list, gate)
 
-        returned = Pinky.changespeed(Pinky_directions, p_turn, p_steps, p_len)
+        returned = Pinky.setspeed(Pinky_directions, p_turn, p_steps, p_len)
         p_turn = returned[0]
         p_steps = returned[1]
-        Pinky.changespeed(Pinky_directions, p_turn, p_steps, p_len)
+        Pinky.setspeed(Pinky_directions, p_turn, p_steps, p_len)
         Pinky.update(wall_list, False)
 
-        returned = Blinky.changespeed(Blinky_directions, b_turn, b_steps, b_len)
+        returned = Blinky.setspeed(Blinky_directions, b_turn, b_steps, b_len)
         b_turn = returned[0]
         b_steps = returned[1]
-        Blinky.changespeed(Blinky_directions, b_turn, b_steps, b_len)
+        Blinky.setspeed(Blinky_directions, b_turn, b_steps, b_len)
         Blinky.update(wall_list, False)
 
-        returned = Inky.changespeed(Inky_directions, i_turn, i_steps, i_len)
+        returned = Inky.setspeed(Inky_directions, i_turn, i_steps, i_len)
         i_turn = returned[0]
         i_steps = returned[1]
-        Inky.changespeed(Inky_directions, i_turn, i_steps, i_len)
+        Inky.setspeed(Inky_directions, i_turn, i_steps, i_len)
         Inky.update(wall_list, False)
 
-        returned = Clyde.changespeed(Clyde_directions, c_turn, c_steps, c_len)
+        returned = Clyde.setspeed(Clyde_directions, c_turn, c_steps, c_len)
         c_turn = returned[0]
         c_steps = returned[1]
-        Clyde.changespeed(Clyde_directions, c_turn, c_steps, c_len)
+        Clyde.setspeed(Clyde_directions, c_turn, c_steps, c_len)
         Clyde.update(wall_list, False)
 
         #blocks that collided
@@ -497,6 +482,7 @@ def start():
         if score == block_len:
             LEVEL += 5
             FINAL_SCORE += score * 100
+            pygame.mixer.Sound("levelup.wav").play()
             restart("LEVEL UP!", 235, all_sprites_list, block_list, ghost_list, collision,
                     wall_list, gate)
 
@@ -506,6 +492,7 @@ def start():
         if game_over_check:
             LEVEL = 10
             FINAL_SCORE = 0
+            pygame.mixer.Sound("gameover.wav").play()
             restart("Game Over", 235, all_sprites_list, block_list, ghost_list, collision, wall_list, gate)
         pygame.display.flip()
 
