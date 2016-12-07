@@ -480,7 +480,7 @@ def start():
         screen.blit(text_score, [200, 610])
 
         if score == block_len:
-            LEVEL += 5
+            LEVEL += 3
             FINAL_SCORE += score * 100
             pygame.mixer.Sound("levelup.wav").play()
             restart("LEVEL UP!", 235, all_sprites_list, block_list, ghost_list, collision,
