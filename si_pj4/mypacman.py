@@ -519,8 +519,8 @@ def restart(message, left, all_sprites_list, block_list, ghost_list, collision, 
                     start()
 
         size_rect = pygame.Surface((400, 200))  # the size of rect
-        size_rect.set_alpha(10)
-        size_rect.fill((128, 128, 128))  # fill entire space
+        size_rect.set_alpha(100)
+        size_rect.fill(color_purple)  # fill entire space
         screen.blit(size_rect, (100, 200))
 
 
