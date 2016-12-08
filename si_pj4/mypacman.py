@@ -5,7 +5,7 @@
 import pygame
 
 #GLOBAL VARIABLES
-LEVEL = 10 # clock speed
+LEVEL = 7 # clock speed
 SIZE_FACTOR = 6 #bug when changed to different factor for now
 FINAL_SCORE = 0
 
@@ -472,7 +472,7 @@ def start():
         ghost_list.draw(screen)
 
         text_score = font.render("SCORE  " + str(score * 100 + FINAL_SCORE), True, color_red)
-        text_level = font.render("LEVEL  " + str(int((LEVEL-5) / 5)), True, color_red)
+        text_level = font.render("LEVEL  " + str(int((LEVEL-4) / 3)), True, color_red)
 
         #left block + " blocks:" + str(block_len - score)
         #slowly bring forward the end text
@@ -490,7 +490,7 @@ def start():
         game_over_check = pygame.sprite.spritecollide(Pacman, ghost_list, False)
 
         if game_over_check:
-            LEVEL = 10
+            LEVEL = 7
             FINAL_SCORE = 0
             pygame.mixer.Sound("gameover.wav").play()
             restart("Game Over", 235, all_sprites_list, block_list, ghost_list, collision, wall_list, gate)
